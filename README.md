@@ -43,3 +43,4 @@ ttl: 1h #或者5m
   "cache_control": { "type": "ephemeral", "ttl": "1h" }
 }
 ```
+PS: 开启任何酒馆的提示词预处理都会导致块内Cache_control字段被清空
