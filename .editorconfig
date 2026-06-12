@@ -1,0 +1,24 @@
+# .editorconfig - 编辑器配置文件
+#
+# - .eslintrc.json
+# - .prettierrc.js
+# - .gitattributes
+
+root = true # 标记为根配置文件，不再向上查找
+
+# ========== 所有文件的默认规则 ==========
+[*]
+charset = utf-8 # 文件字符编码
+end_of_line = lf # 换行符类型（与 Prettier 保持一致）
+insert_final_newline = true # 文件末尾自动插入空行
+trim_trailing_whitespace = true # 自动删除行尾空白字符
+
+# ========== JavaScript/TypeScript/JSON/YAML 文件 ==========
+[*.{js,mjs,ts,json,yml,yaml}]
+indent_style = space # 使用空格缩进
+indent_size = 2 # 缩进大小：2 个空格
+
+# ========== Markdown 文件 ==========
+[*.md]
+trim_trailing_whitespace = false # Markdown 中不删除行尾空白
+max_line_length = off # Markdown 不限制行长度

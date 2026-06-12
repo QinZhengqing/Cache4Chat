@@ -1,0 +1,55 @@
+/* tsconfig.json - TypeScript 编译配置
+ *
+ * - esbuild.config.mjs
+ * - .eslintrc.json
+ */
+
+{
+  "compilerOptions": {
+    /* ========== 语言特性 ========== */
+    "target": "ES2020", // 编译目标（匹配宿主 iframe 环境）
+    "lib": ["ES2020", "DOM"], // 标准库（含 DOM，宿主为浏览器 iframe）
+
+    /* ========== 模块系统 ========== */
+    "module": "ESNext", // 模块格式（ESM）
+    "moduleResolution": "bundler", // 模块解析策略（适配 esbuild）
+    "resolveJsonModule": true, // 允许导入 JSON 文件
+    "resolvePackageJsonExports": true, // 支持 package.json 的 exports 字段
+    "resolvePackageJsonImports": true, // 支持 package.json 的 imports 字段
+    "allowImportingTsExtensions": true, // 允许导入 .ts 扩展名（bundler 模式需要）
+
+    /* ========== 路径解析 ========== */
+    "baseUrl": ".", // 路径解析的基准目录
+    "paths": {
+      "@/*": ["./src/*"] // 路径别名：@/ 指向 src/
+    },
+
+    /* ========== 输出配置 ========== */
+    "noEmit": true, // 不生成输出文件（由 esbuild 处理）
+    "sourceMap": true, // 生成 source map 用于调试
+    "removeComments": true, // 移除注释以减小输出体积
+    "importHelpers": true, // 从 tslib 导入辅助函数
+
+    /* ========== 互操作性 ========== */
+    "esModuleInterop": true, // 启用 ESM 和 CommonJS 互操作
+    "allowSyntheticDefaultImports": true, // 允许从没有默认导出的模块中默认导入
+    "forceConsistentCasingInFileNames": true, // 强制文件名大小写一致
+    "isolatedModules": true, // 确保每个文件都可以独立编译
+    "verbatimModuleSyntax": true, // 保留模块语法（type-only imports 必须使用 type 关键字）
+
+    /* ========== 类型检查 ========== */
+    "strict": true, // 启用所有严格类型检查选项
+    "noUnusedLocals": true, // 禁止未使用的局部变量
+    "noUnusedParameters": true, // 禁止未使用的参数
+    "noImplicitReturns": true, // 函数所有分支必须有返回值
+    "noFallthroughCasesInSwitch": true, // 禁止 switch 语句贯穿
+    "noUncheckedIndexedAccess": true, // 索引访问返回 undefined 联合类型
+    "noImplicitOverride": true, // 子类覆盖方法必须使用 override 关键字
+    "noPropertyAccessFromIndexSignature": true, // 索引签名属性必须使用括号访问
+
+    /* ========== 完整性检查 ========== */
+    "skipLibCheck": true // 跳过第三方库的类型检查（提升编译速度）
+  },
+  "include": ["src", "tests"], // 包含的源文件目录（tests 仅供类型检查与 ESLint，noEmit 不参与构建）
+  "exclude": ["node_modules", "dist"] // 排除的目录
+}

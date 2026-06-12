@@ -1,0 +1,16 @@
+# .gitattributes - Git 属性配置（统一换行符行为）
+#
+# - .editorconfig
+# - .prettierrc.js
+
+# ========== 文本文件统一处理 ========== #
+* text=auto eol=lf
+
+# ========== 二进制文件保护 ========== #
+# ---- 图片文件 ---- #
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg binary

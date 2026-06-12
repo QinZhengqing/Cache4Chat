@@ -1,0 +1,192 @@
+/* .eslintrc.json - ESLint 代码检查配置
+ *
+ * - .prettierrc.cjs
+ * - .editorconfig
+ * - tsconfig.json
+ */
+
+{
+  "root": true, // 标记为根配置文件，不再向上查找
+
+  /* ========== 运行环境 ========== */
+  "env": {
+    "browser": true, // 浏览器全局变量（宿主为 iframe）
+    "es2022": true // ES2022 语法和全局对象
+  },
+
+  /* ========== 宿主注入的全局变量 ========== */
+  "globals": {
+    "_": "readonly", // lodash
+    "$": "readonly", // jQuery
+    "YAML": "readonly", // yaml 解析
+    "z": "readonly", // Zod（运行时校验）
+    "toastr": "readonly", // 通知
+    "showdown": "readonly", // Markdown 转 HTML
+    "SillyTavern": "readonly", // 酒馆上下文
+    "TavernHelper": "readonly", // 酒馆助手 API
+    "eventOn": "readonly", // 事件监听
+    "eventOnce": "readonly", // 一次性事件监听
+    "eventMakeLast": "readonly", // 注册为最后执行的监听
+    "eventMakeFirst": "readonly", // 注册为最先执行的监听
+    "eventEmit": "readonly", // 事件广播
+    "eventEmitAndWait": "readonly", // 事件广播并等待
+    "eventRemoveListener": "readonly", // 移除监听
+    "eventClearEvent": "readonly", // 清除事件的所有监听
+    "eventClearListener": "readonly", // 清除监听函数的所有注册
+    "eventClearAll": "readonly", // 清除本 iframe 所有监听
+    "tavern_events": "readonly", // 酒馆事件枚举
+    "iframe_events": "readonly", // iframe 事件枚举
+    "getVariables": "readonly", // 获取变量
+    "getAllVariables": "readonly", // 获取合并变量
+    "replaceVariables": "readonly", // 替换变量
+    "updateVariablesWith": "readonly", // 函数式更新变量
+    "insertOrAssignVariables": "readonly", // 插入或赋值变量
+    "insertVariables": "readonly", // 仅插入变量
+    "deleteVariable": "readonly", // 删除变量
+    "registerVariableSchema": "readonly", // 注册变量 Schema
+    "initializeGlobal": "readonly", // 初始化全局共享对象
+    "waitGlobalInitialized": "readonly", // 等待全局共享对象
+    "registerMacroLike": "readonly", // 注册宏
+    "unregisterMacroLike": "readonly", // 注销宏
+    "generate": "readonly", // LLM 生成
+    "generateRaw": "readonly", // LLM 原始生成
+    "triggerSlash": "readonly", // 触发斜杠命令
+    "getButtonEvent": "readonly", // 获取按钮事件
+    "getScriptButtons": "readonly", // 获取脚本按钮
+    "replaceScriptButtons": "readonly", // 替换脚本按钮
+    "updateScriptButtonsWith": "readonly", // 更新脚本按钮
+    "appendInexistentScriptButtons": "readonly", // 追加脚本按钮
+    "getScriptName": "readonly", // 获取脚本名称
+    "getScriptInfo": "readonly", // 获取脚本信息
+    "replaceScriptInfo": "readonly", // 替换脚本信息
+    "reloadIframe": "readonly", // 重载 iframe
+    "getIframeName": "readonly", // 获取 iframe 名称
+    "getCurrentMessageId": "readonly", // 获取当前消息 ID
+    "getScriptId": "readonly", // 获取脚本 ID
+    "substitudeMacros": "readonly", // 宏替换
+    "getLastMessageId": "readonly", // 获取最新消息 ID
+    "getMessageId": "readonly", // 获取消息 ID
+    "errorCatched": "readonly", // 错误捕获包装
+    "injectPrompts": "readonly", // 注入提示词
+    "uninjectPrompts": "readonly" // 移除注入的提示词
+  },
+
+  /* ========== 扩展规则集 ========== */
+  "extends": [
+    "eslint:recommended", // ESLint 官方推荐规则
+    "plugin:@typescript-eslint/recommended", // TypeScript 推荐规则
+    "plugin:@typescript-eslint/recommended-requiring-type-checking", // 需要类型信息的深度检查
+    "plugin:import/recommended", // Import 插件推荐规则
+    "plugin:import/typescript", // Import 插件 TypeScript 支持
+    "plugin:prettier/recommended" // Prettier 集成（必须放最后）
+  ],
+
+  /* ========== 解析器配置 ========== */
+  "parser": "@typescript-eslint/parser", // 使用 TypeScript 解析器
+  "parserOptions": {
+    "ecmaVersion": "latest", // 最新 ECMAScript 版本
+    "sourceType": "module", // ES 模块（import/export）
+    "project": ["./tsconfig.json"] // tsconfig 位置（类型检查需要）
+  },
+
+  /* ========== 插件 ========== */
+  "plugins": ["@typescript-eslint", "import", "jsdoc", "prettier"],
+
+  /* ========== 自定义规则 ========== */
+  "rules": {
+    /* ---- 格式化 ---- */
+    "prettier/prettier": "error", // Prettier 格式问题显示为错误
+
+    /* ---- 类型安全 ---- */
+    "@typescript-eslint/no-explicit-any": "error", // 禁止 any 类型
+    "@typescript-eslint/explicit-function-return-type": [
+      "warn",
+      {
+        "allowExpressions": true, // 允许表达式（箭头函数赋值等）
+        "allowTypedFunctionExpressions": true // 允许已有类型注解的函数表达式
+      }
+    ],
+    "@typescript-eslint/explicit-module-boundary-types": "warn", // 导出函数必须声明类型
+    "@typescript-eslint/no-non-null-assertion": "warn", // 警告使用 ! 非空断言
+    "@typescript-eslint/prefer-nullish-coalescing": "warn", // 优先使用 ?? 而非 ||
+    "@typescript-eslint/prefer-optional-chain": "warn", // 优先使用可选链 ?.
+
+    /* ---- Promise/异步处理 ---- */
+    "@typescript-eslint/no-floating-promises": "error", // 禁止未处理的 Promise
+    "@typescript-eslint/await-thenable": "error", // 禁止 await 非 Promise
+    "@typescript-eslint/no-misused-promises": "error", // 禁止错误使用 Promise
+
+    /* ---- 代码质量 ---- */
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_", // 忽略 _ 开头的参数
+        "varsIgnorePattern": "^_" // 忽略 _ 开头的变量
+      }
+    ],
+    "prefer-const": "error", // 优先使用 const
+    "no-var": "error", // 禁止 var
+    "no-console": "warn", // console 显示警告（生产代码应使用日志系统）
+    "default-case": "warn", // switch 需要 default 分支
+    "no-empty": "warn", // 禁止空代码块
+
+    /* ---- 模块解耦 ---- */
+    "import/no-cycle": "error", // 禁止循环依赖
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"], // 导入分组顺序
+        "newlines-between": "always", // 分组之间空行
+        "alphabetize": { "order": "asc", "caseInsensitive": true } // 字母排序
+      }
+    ],
+
+    /* ---- 命名规范 ---- */
+    "@typescript-eslint/naming-convention": [
+      "error",
+      { "selector": "interface", "format": ["PascalCase"] }, // 接口：PascalCase
+      { "selector": "typeAlias", "format": ["PascalCase"] }, // 类型别名：PascalCase
+      { "selector": "enum", "format": ["PascalCase"] }, // 枚举：PascalCase
+      { "selector": "enumMember", "format": ["UPPER_CASE"] }, // 枚举成员：UPPER_CASE
+      { "selector": "class", "format": ["PascalCase"] }, // 类：PascalCase
+      {
+        "selector": "variable",
+        "format": ["camelCase", "UPPER_CASE", "PascalCase"], // 变量：camelCase（常量可用 UPPER_CASE）
+        "leadingUnderscore": "allow" // 允许 _ 前缀
+      }
+    ],
+
+    /* ---- 注释要求 ---- */
+    "jsdoc/require-jsdoc": [
+      "warn",
+      {
+        "require": {
+          "FunctionDeclaration": true, // 函数声明需要 JSDoc
+          "ClassDeclaration": true, // 类声明需要 JSDoc
+          "MethodDefinition": true // 方法定义需要 JSDoc
+        }
+      }
+    ],
+    "jsdoc/require-description": "warn", // JSDoc 需要描述
+    "jsdoc/require-param-description": "warn", // 参数需要描述
+    "jsdoc/require-returns-description": "warn" // 返回值需要描述
+  },
+
+  /* ========== 忽略文件 ========== */
+  "ignorePatterns": [
+    "dist", // 构建输出
+    "node_modules", // 第三方依赖
+    "*.config.js", // JS 配置文件
+    "*.config.ts", // TS 配置文件
+    "*.config.mjs", // MJS 配置文件
+    ".prettierrc.cjs" // Prettier 配置文件
+  ],
+
+  /* ========== Import 插件设置 ========== */
+  "settings": {
+    "import/resolver": {
+      "typescript": true, // 使用 TypeScript 解析器
+      "node": true // 使用 Node.js 解析器
+    }
+  }
+}
