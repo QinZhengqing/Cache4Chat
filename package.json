@@ -1,6 +1,6 @@
 {
   "name": "cache4chat",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "description": "Cache4Chat —— SillyTavern 酒馆助手脚本",
   "main": "dist/bundle.js",

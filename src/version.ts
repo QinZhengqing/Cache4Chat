@@ -4,4 +4,4 @@
  */
 
 /** 显示版本号 */
-export const DISPLAY_VERSION = 'v0.1.0';
+export const DISPLAY_VERSION = 'v1.0.0';
