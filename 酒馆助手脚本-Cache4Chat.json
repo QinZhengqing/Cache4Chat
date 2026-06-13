@@ -1,0 +1,17 @@
+{
+  "type": "script",
+  "enabled": true,
+  "name": "Cache4Chat",
+  "id": "7bbcd17a-12c7-4cce-a9d9-fe45ddce4fc5",
+  "content": "var s=/<cache_control>([\\s\\S]*?)<\\/cache_control>/gi;function a(t){let n,e=[];return{cleanedText:t.replace(s,(c,p)=>{let u=p.trim();if(u===\"\")return e.push(\"\\u6807\\u8BB0\\u5757\\u5185\\u5BB9\\u4E3A\\u7A7A\\uFF0C\\u5DF2\\u5265\\u79BB\\u4F46\\u672A\\u751F\\u6548\"),\"\";try{let o=YAML.parse(u);o==null?e.push(\"\\u6807\\u8BB0\\u5757\\u89E3\\u6790\\u7ED3\\u679C\\u4E3A\\u7A7A\\u503C\\uFF0C\\u5DF2\\u5265\\u79BB\\u4F46\\u672A\\u751F\\u6548\"):n=o}catch(o){let d=o instanceof Error?o.message:String(o);e.push(`\\u6807\\u8BB0\\u5757 YAML \\u89E3\\u6790\\u5931\\u8D25\\uFF0C\\u5DF2\\u5265\\u79BB\\u4F46\\u672A\\u751F\\u6548\\uFF1A${d}`)}return\"\"}),cacheControl:n,errors:e}}function i(t){return s.lastIndex=0,s.test(t)}function h(t){return t.type===\"text\"&&typeof t.text==\"string\"}function x(t){let n=[],e;if(typeof t.content==\"string\"){if(!i(t.content))return n;let r=a(t.content);e=r.cacheControl,n.push(...r.errors),e!==void 0?t.content=[{type:\"text\",text:r.cleanedText,cache_control:e}]:t.content=r.cleanedText}else if(Array.isArray(t.content))for(let r of t.content){if(!h(r)||!i(r.text))continue;let c=a(r.text);r.text=c.cleanedText,c.cacheControl!==void 0&&(e=c.cacheControl,r.cache_control=c.cacheControl),n.push(...c.errors)}return e!==void 0&&(t.cache_control=e),n}function g(t){return t.flatMap(n=>x(n))}function f(){return eventOn(tavern_events.CHAT_COMPLETION_PROMPT_READY,(...t)=>{let n=t[0];if(!n||n.dryRun||!Array.isArray(n.chat))return;let e=g(n.chat);for(let r of e)toastr.warning(r,\"Cache4Chat\")})}var l=\"v1.0.0\";function C(){f(),console.log(`[Cache4Chat] ${l} loaded`)}C();\n",
+  "info": "Cache4Chat v1.0.0 —— 在提示词任意位置写入 <Cache_control> 标记块，声明式启用 Anthropic 格式的 Prompt Caching（cache_control），发送前自动剥离标记并双挂写入。支持 Custom（OpenAI 兼容端点）与 OpenRouter。项目主页与文档：https://github.com/QinZhengqing/Cache4Chat",
+  "button": {
+    "enabled": true,
+    "buttons": []
+  },
+  "data": {},
+  "export_with": {
+    "data": true,
+    "button": true
+  }
+}
